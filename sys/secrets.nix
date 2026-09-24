@@ -3,6 +3,12 @@
 {
   age = {
     secrets = {
+      slskd = {
+        file = ../secrets/shared/slskd.age;
+        owner = "hades";
+        group = "users";
+        mode = "0400";
+      };
       hades = {
         file = ../secrets/shared/hades.age;
         owner = "hades";

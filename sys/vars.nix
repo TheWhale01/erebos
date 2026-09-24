@@ -58,4 +58,13 @@
   prometheus = {
     uid = "G0CojlhIuEI8Z0Rsyl5VGVP2qpzHW9Wy";
   };
+  lidarr = {
+    port = 8686;
+  };
+  slskd = {
+    download_path = "/data/downloads/music/slskd";
+  };
+  sabnzbd = {
+    port = 8080;
+  };
 }

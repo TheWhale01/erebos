@@ -19,6 +19,7 @@ in
   "shared/matrix/erebot.age".publicKeys = shared;
   "shared/matrix/livekit.age".publicKeys = shared;
   "shared/authentik/smtp.age".publicKeys = shared;
+  "shared/slskd.age".publicKeys = shared;
 
   "prod/actualbudget.age".publicKeys = prod;
   "prod/grafana.age".publicKeys = prod;

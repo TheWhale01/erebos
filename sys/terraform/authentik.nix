@@ -28,6 +28,8 @@
         "\${authentik_provider_proxy.transmission_provider.id}"
         "\${authentik_provider_proxy.traefik_provider.id}"
         "\${authentik_provider_proxy.enableactual_provider.id}"
+        "\${authentik_provider_proxy.slskd_provider.id}"
+        "\${authentik_provider_proxy.lidarr_provider.id}"
       ];
     };
     authentik_stage_invitation.invitation_stage = {

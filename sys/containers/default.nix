@@ -8,39 +8,39 @@
     ./nextcloud.nix
     ./maintainerr.nix
     ./actualbudget.nix
+    ./lidarr.nix
   ];
 
-  virtualisation.containers = {
-    enable = true;
-    storage.settings.storage = {
-      driver = "overlay";
-      runroot = "/run/containers/storage";
-      graphroot = "/var/lib/containers/storage";
-      rootless_storage_path = "/tmp/containers-$USER";
-      options.overlay.mountopt = "nodev,metacopy=on";
-    };
-  };
-
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-    autoPrune = {
+  virtualisation = {
+    oci-containers.backend = "podman";
+    containers = {
       enable = true;
-      flags = [ "--all" "--force" "--volumes" ];
+      storage.settings.storage = {
+        driver = "overlay";
+        runroot = "/run/containers/storage";
+        graphroot = "/var/lib/containers/storage";
+        rootless_storage_path = "/tmp/containers-$USER";
+        options.overlay.mountopt = "nodev,metacopy=on";
+      };
     };
-    defaultNetwork.settings = {
-      dns_enabled = true;
-      ipv6_enabled = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      autoPrune = {
+        enable = true;
+        flags = [ "--all" "--force" "--volumes" ];
+      };
+      defaultNetwork.settings = {
+        dns_enabled = true;
+        ipv6_enabled = true;
+      };
     };
   };
-  virtualisation.oci-containers.backend = "podman";
-
   environment.extraInit = ''
     if [ -z "$DOCKER_HOST" -a -n "$XDG_RUNTIME_DIR" ]; then
       export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
     fi
   '';
-
   systemd.services.update-containers = {
     startAt = "daily";
     serviceConfig = {

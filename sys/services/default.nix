@@ -21,5 +21,6 @@
     ./matrix
     ./monitoring
     ./tailscale.nix
+    ./slskd.nix
   ];
 }

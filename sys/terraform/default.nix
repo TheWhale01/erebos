@@ -24,5 +24,7 @@
     ./traefik.nix
     ./transmission.nix
     ./vaultwarden.nix
+    ./lidarr.nix
+    ./slskd.nix
   ];
 }
