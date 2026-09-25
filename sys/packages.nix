@@ -1,0 +1,33 @@
+{ inputs, pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    nixd
+    nil
+    basedpyright
+    ruff
+    typescript-language-server
+    fastfetch
+    ripgrep
+    tree
+    nvtopPackages.nvidia
+    pciutils
+    unzip
+    tmux
+    jq
+    mailutils
+    dig
+    wget
+    podman-compose
+    nodejs
+    id3v2
+    flac
+    file
+    irssi
+    openssl
+    bitwarden-cli
+    inputs.agenix.packages.${stdenv.hostPlatform.system}.default
+    bridge-utils
+  ];
+}
