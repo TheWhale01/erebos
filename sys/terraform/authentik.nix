@@ -17,6 +17,29 @@
   };
 
   resource = {
+    authentik_provider_ldap.ldap_provider = {
+      name = "LDAP Provider";
+      base_dn = "ou=\${data.authentik_user.whale.username},dc=ldap,dc=goauthentik,dc=io";
+      bind_flow = "\${authentik_flow.ldap_authentication_flow.id}";
+      unbind_flow = "\${data.authentik_flow.default_invalidation_flow.id}";
+    };
+    authentik_application.ldap = {
+      name = "LDAP";
+      slug = "ldap";
+      protocol_provider = "\${authentik_provider_ldap.ldap_provider.id}";
+      meta_description = "LDAP directory and authentication";
+      meta_launch_url = "ldaps://authentik.${vars.traefik.domain}:6636";
+    };
+    authentik_rbac_permission_role.ldap_search_directory = {
+      role = "\${data.authentik_rbac_role.ldap_search_directory.id}";
+      model = "authentik_providers_ldap.ldapprovider";
+      permission = "search_full LDAP_directory";
+      object_id = "\${authentik_provider_ldap.ldap_provider.id}";
+    };
+    authentik_rbac_user_role.ldap_search_directory_whale = {
+      user = "\${data.authentik_user.whale.id}";
+      role = "\${data.authentik_rbac_role.ldap_search_directory.id}";
+    };
     authentik_outpost.proxy_outpost = {
       name = "proxy-outpost";
       protocol_providers = [
@@ -110,8 +133,13 @@
         template = "email/password_reset.html";
       };
     };
-    authentik_stage_user_login.user_login_stage = {
-      name = "enrollment-user-login";
+    authentik_stage_user_login = {
+      user_login_stage = {
+        name = "enrollment-user-login";
+      };
+      ldap_login_stage = {
+        name = "ldap-login-stage";
+      };
     };
     authentik_stage_user_write = {
       write_user_stage = {
@@ -168,6 +196,12 @@
         title = "Reset your password";
         designation = "recovery";
       };
+      ldap_authentication_flow = {
+        name = "ldap-authentication";
+        slug = "ldap-authentication";
+        title = "LDAP Authentication";
+        designation = "authentication";
+      };
     };
     authentik_flow_stage_binding = {
       enrollment_invitation = {
@@ -221,15 +255,31 @@
         stage = "\${authentik_stage_user_login.user_login_stage.id}";
         order = 50;
       };
+      ldap_identification = {
+        target = "\${authentik_flow.ldap_authentication_flow.uuid}";
+        stage = "\${authentik_stage_identification.ldap_identification_stage.id}";
+        order = 10;
+      };
+      ldap_login = {
+        target = "\${authentik_flow.ldap_authentication_flow.uuid}";
+        stage = "\${authentik_stage_user_login.ldap_login_stage.id}";
+        order = 30;
+      };
     };
-    authentik_stage_identification.recovery_identification_stage = {
-      name = "recovery-identification-stage";
-      user_fields = [ "username" "email" ];
+    authentik_stage_identification = {
+      recovery_identification_stage = {
+        name = "recovery-identification-stage";
+        user_fields = [ "username" "email" ];
+      };
+      ldap_identification_stage = {
+        name = "ldap-identification-stage";
+        user_fields = [ "username" "email" ];
+      };
     };
     authentik_policy_binding.recovery_policy = {
       target = "\${authentik_flow.recovery_password_flow.uuid}";
       policy = "\${authentik_policy_expression.skip_if_restored.id}";
       order = 0;
-      };
+    };
   };
 }
