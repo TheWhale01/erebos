@@ -9,6 +9,7 @@
     ./maintainerr.nix
     ./actualbudget.nix
     ./lidarr.nix
+    ./authentik.nix
   ];
 
   virtualisation = {

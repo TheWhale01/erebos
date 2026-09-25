@@ -19,8 +19,8 @@
   resource = {
     authentik_provider_ldap.ldap_provider = {
       name = "LDAP Provider";
-      base_dn = "ou=\${data.authentik_user.whale.username},dc=ldap,dc=goauthentik,dc=io";
-      bind_flow = "\${authentik_flow.ldap_authentication_flow.id}";
+      base_dn = "dc=ldap,dc=goauthentik,dc=io";
+      bind_flow = "\${authentik_flow.ldap_authentication_flow.uuid}";
       unbind_flow = "\${data.authentik_flow.default_invalidation_flow.id}";
     };
     authentik_application.ldap = {
@@ -28,32 +28,49 @@
       slug = "ldap";
       protocol_provider = "\${authentik_provider_ldap.ldap_provider.id}";
       meta_description = "LDAP directory and authentication";
-      meta_launch_url = "ldaps://authentik.${vars.traefik.domain}:6636";
+    };
+    authentik_rbac_role.ldap_search_directory = {
+      name = "LDAP Search Directory";
     };
     authentik_rbac_permission_role.ldap_search_directory = {
-      role = "\${data.authentik_rbac_role.ldap_search_directory.id}";
+      role = "\${authentik_rbac_role.ldap_search_directory.id}";
       model = "authentik_providers_ldap.ldapprovider";
-      permission = "search_full LDAP_directory";
+      permission = "authentik_providers_ldap.search_full_directory";
       object_id = "\${authentik_provider_ldap.ldap_provider.id}";
     };
-    authentik_rbac_user_role.ldap_search_directory_whale = {
-      user = "\${data.authentik_user.whale.id}";
-      role = "\${data.authentik_rbac_role.ldap_search_directory.id}";
-    };
-    authentik_outpost.proxy_outpost = {
-      name = "proxy-outpost";
-      protocol_providers = [
-        "\${authentik_provider_proxy.openbooks_provider.id}"
-        "\${authentik_provider_proxy.sonarr_provider.id}"
-        "\${authentik_provider_proxy.maintainerr_provider.id}"
-        "\${authentik_provider_proxy.radarr_provider.id}"
-        "\${authentik_provider_proxy.prowlarr_provider.id}"
-        "\${authentik_provider_proxy.transmission_provider.id}"
-        "\${authentik_provider_proxy.traefik_provider.id}"
-        "\${authentik_provider_proxy.enableactual_provider.id}"
-        "\${authentik_provider_proxy.slskd_provider.id}"
-        "\${authentik_provider_proxy.lidarr_provider.id}"
+    authentik_group.ldap_search_group = {
+      name = "LDAP Search Group";
+      users = [
+        "\${data.authentik_user.whale.id}"
       ];
+      roles = [
+        "\${authentik_rbac_role.ldap_search_directory.id}"
+      ];
+      is_superuser = false;
+    };
+    authentik_outpost = {
+      proxy_outpost = {
+        name = "proxy-outpost";
+        protocol_providers = [
+          "\${authentik_provider_proxy.openbooks_provider.id}"
+          "\${authentik_provider_proxy.sonarr_provider.id}"
+          "\${authentik_provider_proxy.maintainerr_provider.id}"
+          "\${authentik_provider_proxy.radarr_provider.id}"
+          "\${authentik_provider_proxy.prowlarr_provider.id}"
+          "\${authentik_provider_proxy.transmission_provider.id}"
+          "\${authentik_provider_proxy.traefik_provider.id}"
+          "\${authentik_provider_proxy.enableactual_provider.id}"
+          "\${authentik_provider_proxy.slskd_provider.id}"
+          "\${authentik_provider_proxy.lidarr_provider.id}"
+        ];
+      };
+      ldap_outpost = {
+        name = "ldap-outpost";
+        type = "ldap";
+        protocol_providers = [
+          "\${authentik_provider_ldap.ldap_provider.id}"
+        ];
+      };
     };
     authentik_stage_invitation.invitation_stage = {
       name = "invitation-stage";
