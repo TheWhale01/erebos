@@ -17,7 +17,6 @@
     ./ollama.nix
     ./immich.nix
     ./cleanerr.nix
-    ./authentik.nix
     ./matrix
     ./monitoring
     ./tailscale.nix
