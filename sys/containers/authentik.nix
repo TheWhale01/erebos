@@ -72,7 +72,6 @@ in
         AUTHENTIK_HOST = "http://127.0.0.1:9000";
         AUTHENTIK_INSECURE = "true";
         AUTHENTIK_HOST_BROWSER = "https://authentik.${vars.traefik.domain}";
-        # AUTHENTIK_LISTEN__METRICS = "127.0.0.1:9304";
         AUTHENTIK_LISTEN__HTTP = "127.0.0.1:9301";
         AUTHENTIK_LISTEN__HTTPS = "127.0.0.1:9444";
       };
