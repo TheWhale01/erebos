@@ -8,7 +8,7 @@
   };
 
   imports = [
-    # ./jellyfin.nix
+    ./jellyfin.nix
     ./actualbudget.nix
     ./authentik.nix
     ./enableactual.nix
