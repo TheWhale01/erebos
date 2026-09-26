@@ -34,6 +34,14 @@
     };
   };
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      redis = prev.redis.overrideAttrs (old: {
+        doCheck = false;
+      });
+    })
+  ];
+
   boot.loader.systemd-boot.enable = true;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   boot.loader.efi.canTouchEfiVariables = true;

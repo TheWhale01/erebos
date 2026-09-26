@@ -24,10 +24,6 @@
       url = "github:TheWhale01/cleanerr?ref=test";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    authentik = {
-      url = "github:nix-community/authentik-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     modules = {
       url = "github:TheWhale01/nixos-modules";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +43,6 @@
     disko,
     blog-builder,
     cleanerr,
-    authentik,
     modules,
     terranix,
     ...
@@ -86,7 +81,6 @@
         disko.nixosModules.disko
         blog-builder.nixosModules.default
         cleanerr.nixosModules.default
-        authentik.nixosModules.default
         modules.nixosModules.system
       ];
     };
