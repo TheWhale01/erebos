@@ -54,7 +54,7 @@
       {
         job_name = "authentik";
         static_configs = [{
-          targets = [ "${config.services.authentik.worker.listenMetrics}" ];
+          targets = [ "127.0.0.1:${toString vars.authentik.metrics.port}" ];
         }];
       }
       {

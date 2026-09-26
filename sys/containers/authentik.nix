@@ -20,11 +20,10 @@ in
 {
   virtualisation.oci-containers.containers = {
     authentik = {
-      image = "authentik/server:${authentikVersion}";
+      image = "ghcr.io/goauthentik/server:${authentikVersion}";
       ports = [
         "${toString vars.authentik.port}:9000"
-        "9300:9300"
-        "3389:3389"
+        "${toString vars.authentik.metrics.port}:9300"
       ];
       environment = env;
       environmentFiles = [
@@ -38,7 +37,7 @@ in
       cmd = [ "server" ];
     };
     authentik-worker = {
-      image = "authentik/server:${authentikVersion}";
+      image = "ghcr.io/goauthentik/server:${authentikVersion}";
       environment = env;
       environmentFiles = [
         config.age.secrets.authentik-smtp.path
@@ -53,41 +52,46 @@ in
       cmd = [ "worker" ];
     };
     authentik-ldap = {
-      image = "authentik/ldap:${authentikVersion}";
+      image = "ghcr.io/goauthentik/ldap:${authentikVersion}";
+      ports = [
+        "${toString vars.authentik.ldap.port}:3389"
+      ];
       environment = {
-        AUTHENTIK_HOST = "http://127.0.0.1:9000";
+        AUTHENTIK_HOST = "http://authentik:9000";
         AUTHENTIK_INSECURE = "true";
       };
       environmentFiles = [
         config.age.secrets.authentik-ldap.path
       ];
       dependsOn = [ "authentik" ];
-      extraOptions = [
-        "--network=container:authentik"
-      ];
     };
     authentik-proxy = {
-      image = "authentik/proxy:${authentikVersion}";
+      image = "ghcr.io/goauthentik/proxy:${authentikVersion}";
+      ports = [
+        "${toString vars.authentik.proxy.port}:${toString vars.authentik.proxy.port}"
+      ];
       environment = {
-        AUTHENTIK_HOST = "http://127.0.0.1:9000";
+        AUTHENTIK_HOST = "http://authentik:9000";
         AUTHENTIK_INSECURE = "true";
         AUTHENTIK_HOST_BROWSER = "https://authentik.${vars.traefik.domain}";
-        AUTHENTIK_LISTEN__HTTP = "127.0.0.1:9301";
-        AUTHENTIK_LISTEN__HTTPS = "127.0.0.1:9444";
+        AUTHENTIK_LISTEN__HTTP = "0.0.0.0:${toString vars.authentik.proxy.port}";
+        AUTHENTIK_LISTEN__HTTPS = "0.0.0.0:9444";
       };
       environmentFiles = [
         config.age.secrets.authentik-proxy.path
       ];
       dependsOn = [ "authentik" ];
-      extraOptions = [
-        "--network=container:authentik"
-      ];
     };
   };
   services.traefik.dynamicConfigOptions.http = {
-    services.authentik.loadBalancer.servers = [{
-      url = "http://127.0.0.1:${toString vars.authentik.port}";
-    }];
+    services = {
+      authentik.loadBalancer.servers = [{
+        url = "http://127.0.0.1:${toString vars.authentik.port}";
+      }];
+      authentik-proxy.loadBalancer.servers = [{
+        url = "http://127.0.0.1:${toString vars.authentik.proxy.port}";
+      }];
+    };
     routers = {
       authentik = {
         rule = "Host(`authentik.${vars.traefik.domain}`)";
