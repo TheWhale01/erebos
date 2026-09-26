@@ -33,6 +33,15 @@
     port = 8096;
   };
   authentik = {
+    ldap = {
+      port = 3389;
+    };
+    proxy = {
+      port = 9301;
+    };
+    metrics = {
+      port = 9300;
+    };
     port = 9000;
   };
   matrix = {

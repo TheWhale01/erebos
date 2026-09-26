@@ -1,4 +1,4 @@
-{ config, vars, ... }:
+{ vars, ... }:
 
 {
   virtualisation.oci-containers.containers.lidarr = {
@@ -18,7 +18,7 @@
   };
   services.traefik.dynamicConfigOptions.http = {
     services.lidarr.loadBalancer.servers = [{
-      url = "http://127.0.0.1:${toString config.services.lidarr.settings.server.port}";
+      url = "http://127.0.0.1:${toString vars.lidarr.port}";
     }];
     routers = {
       lidarr = {
@@ -39,7 +39,7 @@
     };
     middlewares.lidarr-auth = {
       forwardAuth = {
-        address = "http://${config.services.authentik-proxy.listenHTTP}/outpost.goauthentik.io/auth/traefik";
+        address = "http://127.0.0.1:${toString vars.authentik.proxy.port}/outpost.goauthentik.io/auth/traefik";
         trustForwardHeader = true;
         authResponseHeaders = [ "X-authentik-username" "X-authentik-groups" "X-authentik-entitlements" "X-authentik-email" "X-authentik-name" "X-authentik-uid" "X-authentik-jwt" "X-authentik-meta-jwks" "X-authentik-meta-outpost" "X-authentik-meta-provider" "X-authentik-meta-app" "X-authentik-meta-version" "Authorization" ];
       };
