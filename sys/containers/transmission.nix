@@ -16,6 +16,7 @@
         TZ = "Europe/Paris";
         LOG_LEVEL = "debug";
       };
+      dependsOn = [ "gluetun" ];
     };
     flood = {
       hostname = "flood";
@@ -33,6 +34,37 @@
       volumes = [
         "/var/lib/flood:/config"
         "/data:/data"
+      ];
+      dependsOn = [ "transmission" ];
+      extraOptions = [ "--network=container:gluetun" ];
+    };
+    transmission-port-sync = {
+      image = "alpine:latest";
+      dependsOn = [ "transmission" ];
+      volumes = [
+        "/tmp/gluetun:/tmp/gluetun:ro"
+      ];
+      environmentFiles = [
+        config.age.secrets.transmission.path
+      ];
+      cmd = [
+        "sh" "-c" ''
+          apk update
+          apk add --no-cache transmission-remote
+          LAST_PORT=""
+          sleep 10
+          while true; do
+            if [ -f /tmp/gluetun/forwarded_port ]; then
+              CURRENT_PORT=$(cat /tmp/gluetun/forwarded_port)
+              if [ -n "$CURRENT_PORT" ] && [ "$CURRENT_PORT" != "$LAST_PORT" ]; then
+                echo "VPN port changed to $CURRENT_PORT, updating Transmission..."
+                transmission-remote 127.0.0.1:9091 -n "$USER:$PASS" -p "$CURRENT_PORT"
+                LAST_PORT="$CURRENT_PORT"
+              fi
+            fi
+            sleep 1
+          done
+        ''
       ];
       extraOptions = [ "--network=container:gluetun" ];
     };
