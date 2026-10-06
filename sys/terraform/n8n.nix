@@ -25,12 +25,34 @@
       authorization_flow = "\${data.authentik_flow.default_authorization_flow.id}";
       invalidation_flow = "\${data.authentik_flow.default_invalidation_flow.id}";
     };
+    authentik_group.n8n_admins = {
+      name = "n8n-admins";
+      users = [
+        "\${data.authentik_user.whale.id}"
+      ];
+      is_superuser = false;
+    };
+    authentik_group.n8n_users = {
+      name = "n8n-users";
+      users = [];
+      is_superuser = false;
+    };
     authentik_application.n8n = {
       name = "n8n";
       slug = "n8n";
       protocol_provider = "\${authentik_provider_oauth2.n8n_provider.id}";
       meta_icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/n8n.png";
       meta_launch_url = "https://n8n.${vars.traefik.domain}";
+    };
+    authentik_policy_binding.n8n_admins_policy = {
+      target = "\${authentik_application.n8n.uuid}";
+      group = "\${authentik_group.n8n_admins.id}";
+      order = 0;
+    };
+    authentik_policy_binding.n8n_users_policy = {
+      target = "\${authentik_application.n8n.uuid}";
+      group = "\${authentik_group.n8n_users.id}";
+      order = 1;
     };
   };
 }

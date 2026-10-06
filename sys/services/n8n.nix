@@ -7,7 +7,7 @@
       N8N_SSO_MANAGED_BY_ENV = "true";
       N8N_SSO_OIDC_LOGIN_ENABLED = "true";
       N8N_SSO_OIDC_CLIENT_ID = "EGCztj1jsOzL7AQ86m8tQWmnobLZJzi6pDUDDPKFeZajCW9DoI72gBmvcWLHhuGD";
-      N8N_SSO_OIDC_DISCOVERY_ENDPOINT = "${config.services.n8n.environment.N8N_EDITOR_BASE_URL}/application/o/n8n/.well-known/openid-configuration";
+      N8N_SSO_OIDC_DISCOVERY_ENDPOINT = "https://n8n.${vars.traefik.domain}/application/o/n8n/.well-known/openid-configuration";
       N8N_EDITOR_BASE_URL = "https://n8n.${vars.traefik.domain}";
     };
   };
