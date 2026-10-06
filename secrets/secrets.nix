@@ -38,6 +38,7 @@ in
   "prod/matrix/mas.age".publicKeys = prod;
   "prod/matrix/matrix.age".publicKeys = prod;
 
+  "stage/n8n.age".publicKeys = stage;
   "stage/aurral.age".publicKeys = stage;
   "stage/actualbudget.age".publicKeys = stage;
   "stage/grafana.age".publicKeys = stage;
