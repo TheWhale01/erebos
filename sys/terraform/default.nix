@@ -27,6 +27,5 @@
     ./lidarr.nix
     ./slskd.nix
     ./aurral.nix
-    ./n8n.nix
   ];
 }

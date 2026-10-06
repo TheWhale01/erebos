@@ -3,9 +3,6 @@
 {
   age = {
     secrets = {
-      n8n = {
-        file = ../secrets/${env}/n8n.age;
-      };
       aurral = {
         file = ../secrets/${env}/aurral.age;
         owner = "hades";
