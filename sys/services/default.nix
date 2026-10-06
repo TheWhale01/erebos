@@ -21,5 +21,6 @@
     ./monitoring
     ./tailscale.nix
     ./slskd.nix
+    ./n8n.nix
   ];
 }

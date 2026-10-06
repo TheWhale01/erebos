@@ -10,6 +10,7 @@
     ./actualbudget.nix
     ./lidarr.nix
     ./authentik.nix
+    ./aurral.nix
   ];
 
   virtualisation = {

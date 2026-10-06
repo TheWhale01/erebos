@@ -21,6 +21,7 @@ in
   "shared/authentik/smtp.age".publicKeys = shared;
   "shared/slskd.age".publicKeys = shared;
 
+  "prod/aurral.age".publicKeys = stage;
   "prod/actualbudget.age".publicKeys = prod;
   "prod/grafana.age".publicKeys = prod;
   "prod/homepage.age".publicKeys = prod;
@@ -37,6 +38,7 @@ in
   "prod/matrix/mas.age".publicKeys = prod;
   "prod/matrix/matrix.age".publicKeys = prod;
 
+  "stage/aurral.age".publicKeys = stage;
   "stage/actualbudget.age".publicKeys = stage;
   "stage/grafana.age".publicKeys = stage;
   "stage/homepage.age".publicKeys = stage;

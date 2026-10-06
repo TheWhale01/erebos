@@ -3,6 +3,11 @@
 {
   age = {
     secrets = {
+      aurral = {
+        file = ../secrets/${env}/aurral.age;
+        owner = "hades";
+        mode = "0400";
+      };
       slskd = {
         file = ../secrets/shared/slskd.age;
         owner = "hades";

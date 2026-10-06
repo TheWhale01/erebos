@@ -26,5 +26,6 @@
     ./vaultwarden.nix
     ./lidarr.nix
     ./slskd.nix
+    ./aurral.nix
   ];
 }

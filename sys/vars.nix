@@ -76,4 +76,7 @@
   sabnzbd = {
     port = 8080;
   };
+  aurral = {
+    port = 3001;
+  };
 }
