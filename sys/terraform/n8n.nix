@@ -25,8 +25,8 @@
       authorization_flow = "\${data.authentik_flow.default_authorization_flow.id}";
       invalidation_flow = "\${data.authentik_flow.default_invalidation_flow.id}";
     };
-    authentik_group.n8n_admins = {
-      name = "n8n-admins";
+    authentik_group.n8n_owners = {
+      name = "n8n-owners";
       users = [
         "\${data.authentik_user.whale.id}"
       ];
@@ -44,9 +44,9 @@
       meta_icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/n8n.png";
       meta_launch_url = "https://n8n.${vars.traefik.domain}";
     };
-    authentik_policy_binding.n8n_admins_policy = {
+    authentik_policy_binding.n8n_owners_policy = {
       target = "\${authentik_application.n8n.uuid}";
-      group = "\${authentik_group.n8n_admins.id}";
+      group = "\${authentik_group.n8n_owners.id}";
       order = 0;
     };
     authentik_policy_binding.n8n_users_policy = {
