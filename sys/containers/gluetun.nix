@@ -28,6 +28,7 @@
     ];
     volumes = [
       "gluetun:/gluetun"
+      "/tmp/gluetun:/tmp/gluetun"
     ];
   };
 }
