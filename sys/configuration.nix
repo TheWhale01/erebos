@@ -58,7 +58,7 @@
       enable = true;
       checkReversePath = "loose";
       allowedTCPPorts = [ 80 443 ];
-      trustedInterfaces = [ "podman0" "tailscale0" ];
+      trustedInterfaces = [ "podman0" "wt0" ];
     };
     enableIPv6 = true;
     nameservers = [
@@ -110,6 +110,8 @@
     TERM = "xterm-256color";
     EDITOR = "vim";
   };
+
+  services.resolved.enable = true;
 
   system.autoUpgrade = {
     enable = true;

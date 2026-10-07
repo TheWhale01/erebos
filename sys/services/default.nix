@@ -19,8 +19,8 @@
     ./cleanerr.nix
     ./matrix
     ./monitoring
-    ./tailscale.nix
     ./slskd.nix
     ./n8n.nix
+    ./netbird.nix
   ];
 }
