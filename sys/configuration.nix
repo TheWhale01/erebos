@@ -41,7 +41,7 @@
     extraGroups = [ "wheel" "networkmanager" ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0yVwbAbZyN1X7fP3wgElyQcSH8IU1D1frADHXY8Dvc poseidon@pontos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMircTS6VhZz/0Hc1pwYYl/Eov7MXNKd9rJLYjGMRfZz poseidon@pontos"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK9FADovUTXSn2694wMAViLnDJRn3TypRSzGHy3MNTo9 hades@erebos"
     ];
   };

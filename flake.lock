@@ -29,26 +29,23 @@
         "nvim-config": "nvim-config"
       },
       "locked": {
-        "lastModified": 1776287258,
-        "narHash": "sha256-Hk6ke1WvD8L2pLqFq3Yvaa3XxhRsFSccA8Fnxymu4Pw=",
-        "owner": "TheWhale01",
-        "repo": "nixos-modules",
-        "rev": "fe91a269e11a3ae0fc0f65baa2a5f8ee8329ecdb",
-        "type": "github"
+        "lastModified": 1791481154,
+        "narHash": "sha256-LZiNfqDs8pCX4aqkLEgPEmr7yYGSqjr81A7qD5XWRrg=",
+        "path": "/home/hades/nixos-modules",
+        "type": "path"
       },
       "original": {
-        "owner": "TheWhale01",
-        "repo": "nixos-modules",
-        "type": "github"
+        "path": "/home/hades/nixos-modules",
+        "type": "path"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1782651437,
-        "narHash": "sha256-10srBgrJz7JOWzS1KG5BhrwHCUPTcPqZgwNKo5N9YE4=",
+        "lastModified": 1783375776,
+        "narHash": "sha256-pg6hLjDeAWaUOzh2JM2Cw0BwYpGtOyNr6A4FBwP9Ymo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "0a47451dbe2082a660b88a79a83efdc8d85de445",
+        "rev": "cd648d6ea62bc0ffba91e61fcfe5e33c1e2004b1",
         "type": "github"
       },
       "original": {

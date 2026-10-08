@@ -8,7 +8,7 @@
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 		modules = {
-			url = "github:TheWhale01/nixos-modules";
+			url = "path:/home/hades/nixos-modules";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 	};
