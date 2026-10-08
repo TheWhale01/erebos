@@ -15,7 +15,10 @@
   networking.hostName = "strategos";
   networking.enableIPv6 = false;
   networking.networkmanager.enable = true;
-  networking.firewall.enable = true;
+  networking.firewall = {
+    enable = true;
+    trustedInterfaces = [ "wt0" ];
+  };
 
   time.timeZone = "Europe/Paris";
 
