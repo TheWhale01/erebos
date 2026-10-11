@@ -1,11 +1,14 @@
-{ config, vars, ... }:
+{ config, vars, pkgs-unstable, ... }:
 
 {
   services.slskd = {
     enable = true;
+    package = pkgs-unstable.slskd;
     user = "hades";
     group = "users";
+    openFirewall = true;
     settings = {
+      remote_file_management = true;
       directories = {
         downloads = "/data/downloads/music/slskd/complete";
         incomplete = "/data/downloads/music/slskd/incomplete";

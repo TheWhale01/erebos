@@ -102,6 +102,19 @@
             };
           }
           {
+            Lidarr = {
+              icon = "lidarr.png";
+              description = "Looks and smells like Sonarr but made for music.";
+              href = "https://lidarr.${vars.traefik.domain}";
+              widget = {
+                type = "lidarr";
+                url = "http://127.0.0.1:${toString vars.lidarr.port}";
+                key = "{{HOMEPAGE_VAR_LIDARR}}";
+                enableQueue = true;
+              };
+            };
+          }
+          {
             Prowlarr = {
               icon = "prowlarr.png";
               description = "indexer manager/proxy built on the popular *arr stack";
@@ -213,10 +226,10 @@
       {
         "Admin Tools" = [
           {
-            Tailscale = {
-              icon = "tailscale.png";
-              description = "Drop you VPN, not your standards";
-              href = "https://tailscale.com";
+            Netbird = {
+              icon = "netbird.png";
+              description = "Open Source Zero Trust Networking";
+              href = "https://netbird.io";
             };
           }
           {
@@ -238,6 +251,13 @@
               icon = "maintainerr.png";
               description = "The Perfect Media Janitor";
               href = "https://maintainerr.${vars.traefik.domain}";
+            };
+          }
+          {
+            n8n = {
+              icon = "n8n.png";
+              description = "AI Workflow Automation Platform";
+              href = "https://n8n.${vars.traefik.domain}";
             };
           }
         ];

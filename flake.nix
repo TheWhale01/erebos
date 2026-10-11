@@ -32,6 +32,9 @@
       url = "github:terranix/terranix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hermes = {
+      url = "github:NousResearch/hermes-agent";
+    };
   };
 
   outputs =
@@ -45,6 +48,7 @@
     cleanerr,
     modules,
     terranix,
+    hermes,
     ...
   }@inputs:
   let
@@ -82,6 +86,7 @@
         blog-builder.nixosModules.default
         cleanerr.nixosModules.default
         modules.nixosModules.system
+        hermes.nixosModules.default
       ];
     };
     terranixState = { env }: terranix.lib.terranixConfiguration {

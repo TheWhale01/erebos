@@ -36,5 +36,18 @@
       meta_icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/aurral.png";
       meta_launch_url = "https://aurral.${vars.traefik.domain}";
     };
+    authentik_group.aurral_admins = {
+      name = "aurral-admins";
+      users = [
+        "\${data.authentik_user.whale.id}"
+      ];
+      is_superuser = false;
+    };
+    authentik_policy_binding.aurral_admins_policy = {
+      target = "\${authentik_application.aurral.uuid}";
+      group = "\${authentik_group.aurral_admins.id}";
+      order = 0;
+      failure_result = true;
+    };
   };
 }

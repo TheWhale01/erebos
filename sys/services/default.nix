@@ -21,6 +21,6 @@
     ./monitoring
     ./slskd.nix
     ./n8n.nix
-    ./netbird.nix
+    ./hermes.nix
   ];
 }

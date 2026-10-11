@@ -10,12 +10,14 @@
       PUID = "1000";
       PGID = "100";
       OIDC_ENABLED = "true";
-      OIDC_ISSUER = "https://authentik.${vars.traefik.domain}/application/o/immich/";
+      OIDC_ISSUER = "https://authentik.${vars.traefik.domain}/application/o/aurral/";
       OIDC_CLIENT_ID = "i257FTVY7cQStZqDJZ8DLWcCChWxjlaH5cgcWY6uTwuVCmHBRX";
       OIDC_REDIRECT_URI = "https://aurral.${vars.traefik.domain}/sso/callback";
+      OIDC_ADMIN_GROUPS = "aurral-admins";
+      OIDC_ADMIN_USERS = "whale";
     };
     environmentFiles = [
-      config.age.secrets.aurral.file
+      config.age.secrets.aurral.path
     ];
     volumes = [
       "/var/lib/aurral:/config"

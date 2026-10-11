@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  services.netbird = {
+  services.hermes-agent = {
     enable = true;
   };
 }
