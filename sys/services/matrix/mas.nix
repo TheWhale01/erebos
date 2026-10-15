@@ -31,7 +31,7 @@
     };
     secrets = {
       keys = [{
-        key_file = "${config.users.users.${vars.mas.user}.home}/keys/rsa.pem";
+        key_file = "${config.users.users.${vars.mas.user}.home}/keys/rsa.key";
         kid = "mas-rsa-key-1";
       }];
     };

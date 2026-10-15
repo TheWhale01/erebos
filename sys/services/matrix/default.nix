@@ -45,11 +45,18 @@ in
       WorkingDirectory = "${config.users.users.mas.home}";
       ExecStart = "${pkgs.matrix-authentication-service}/bin/mas-cli server --config ${config.age.secrets.mas.path} --config ${yaml-format.generate "mas-config.yaml" mas-config}";
       ExecStartPre = lib.getExe (pkgs.writeShellScriptBin "generate-mas-rsa-key" ''
-        if [ -f "${config.users.users.${vars.mas.user}.home}/keys/rsa.pem" ]; then
+        KEY_DIR="${config.users.users.${vars.mas.user}.home}/keys"
+        KEY_FILE="$KEY_DIR/rsa.key"
+        if [ -f "$KEY_FILE" ]; then
             echo "RSA Key pair already exists."
             exit 0
         fi
-        ssh-keygen -t rsa -b 4096 -f "${config.users.users.${vars.mas.user}.home}/keys/rsa.pem" -N ""
+        mkdir -p "$KEY_DIR"
+        ${pkgs.openssh}/bin/ssh-keygen -t rsa -b 4096 -m PEM -f "$KEY_FILE" -N ""
+        chmod -R ${vars.mas.user}:${vars.mas.group} "$KEY_DIR"
+        chmod 700 "$KEY_DIR"
+        chmod 600 "$KEY_FILE"
+        chmod 644 "$KEY_FILE.pub"
       '');
       Restart = "on-failure";
       RestartSec = "5s";
@@ -78,6 +85,7 @@ in
       }];
       app_service_config_files = [
         config.age.secrets.matrix-appservice.path
+        # config.age.secrets.odin.path
       ];
       extra_well_known_client_content = {
         "org.matrix.msc4143.rtc_foci" = [{

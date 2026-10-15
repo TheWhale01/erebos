@@ -107,7 +107,7 @@
     secretFile = config.age.secrets.matrix-alertmanager-webhook.path;
     matrixRooms = [{
       receivers = [ "${config.services.prometheus.alertmanager.configuration.route.receiver}" ];
-      roomId = "!GntjVDhcqBQtGlwDnm:matrix.${vars.traefik.domain}";
+      roomId = "!FVqWRrn1hvNO8Ykzs3xEdSP00B3mokJ7Ad38LkqNL0Y:matrix.${vars.traefik.domain}";
     }];
   };
 }

@@ -10,6 +10,7 @@ let
   shared = [ erebos erebos-stage hades hades-stage ];
 in
 {
+  "shared/hermes.age".publicKeys = shared;
   "shared/hades.age".publicKeys = shared;
   "shared/traefik.age".publicKeys = shared;
   "shared/gluetun.age".publicKeys = shared;

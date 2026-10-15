@@ -79,4 +79,7 @@
   aurral = {
     port = 3001;
   };
+  slskd = {
+    port = 5030;
+  };
 }
