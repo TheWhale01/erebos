@@ -11,6 +11,7 @@
     ./lidarr.nix
     ./authentik.nix
     ./aurral.nix
+    ./opengym.nix
   ];
 
   virtualisation = {

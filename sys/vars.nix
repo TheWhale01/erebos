@@ -82,4 +82,9 @@
   slskd = {
     port = 5030;
   };
+  opengym = {
+    web = {
+      port = 3006;
+    };
+  };
 }
