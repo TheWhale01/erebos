@@ -9,9 +9,8 @@
     ];
     settings = {
       model = {
-        provider = "custom";
-        base_url = "https://api.mistral.ai/v1";
-        default = "mistral-medium-latest";
+        provider = "openrouter";
+        default = "qwen/qwen3.8-flash";
       };
       matrix = {
         require_mention = true;

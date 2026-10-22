@@ -12,6 +12,7 @@
     ./authentik.nix
     ./aurral.nix
     ./opengym.nix
+    ./slskd.nix
   ];
 
   virtualisation = {

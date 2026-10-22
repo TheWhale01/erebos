@@ -1,30 +1,30 @@
-{ config, vars, pkgs-unstable, ... }:
+{ vars, config, ... }:
 
 {
-  services.slskd = {
-    enable = true;
-    package = pkgs-unstable.slskd;
-    user = "hades";
-    group = "users";
-    openFirewall = true;
-    settings = {
-      remote_file_management = true;
-      directories = {
-        downloads = "/data/downloads/music/slskd/complete";
-        incomplete = "/data/downloads/music/slskd/incomplete";
+  virtualisation.oci-containers.containers = {
+    slskd = {
+      image = "slskd/slskd:latest";
+      user = "1000:100";
+      volumes = [
+        "/data:/data"
+        "/var/lib/slskd:/app"
+      ];
+      ports = [
+        "5030:5030/tcp"
+        "5031:5031/tcp"
+        "50300:50300/tcp"
+      ];
+      environment = {
+        SLSKD_REMOTE_FILE_MANAGEMENT = "true";
+        SLSKD_DOWNLOADS_DIR = "/data/downloads/music/slskd/complete";
+        SLSKD_INCOMPLETE_DIR = "/data/downloads/music/slskd/incomplete";
+        SLSKD_SHARED_DIR = "/data/Music";
+        SLSKD_NO_AUTH = "true";
       };
-      shares = {
-        directories = [
-          "/data/Music"
-        ];
-      };
-      web = {
-        authentication = {
-          disabled = true;
-        };
-      };
+      environmentFiles = [
+        config.age.secrets.slskd.path
+      ];
     };
-    environmentFile = config.age.secrets.slskd.path;
   };
   services.traefik.dynamicConfigOptions.http = {
     services.slskd.loadBalancer.servers = [{
