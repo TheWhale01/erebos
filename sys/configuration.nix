@@ -110,7 +110,6 @@
   environment.sessionVariables = rec {
     TERM = "xterm-256color";
     EDITOR = "vim";
-    WIKI_PATH = "/home/hades/code/blog-ideas";
   };
 
   services.resolved.enable = true;

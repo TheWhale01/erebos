@@ -8,9 +8,6 @@
       config.age.secrets.hermes.path
     ];
     settings = {
-      # dashboard = {
-      #   public_url = "https://hermes-dashboard.${vars.traefik.domain}";
-      # };
       model = {
         provider = "openrouter";
         default = "qwen/qwen3.8-flash";
@@ -22,6 +19,9 @@
         ];
       };
     };
+  };
+  systemd.services.hermes-agent.environment = {
+    WIKI_PATH = "/var/lib/hermes/workspace/blog-ideas";
   };
   systemd.services.hermes-dashboard = {
     description = "Hermes Agent Web Dashboard";

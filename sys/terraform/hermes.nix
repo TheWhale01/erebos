@@ -1,7 +1,6 @@
-{ erebos, vars, ... }:
+{ vars, ... }:
 
 {
-  locals.hermes_dashboard_env = vars.terraform.parseEnv "${erebos.config.age.secrets.hermes.path}";
   resource = {
     authentik_provider_proxy.hermes_dashboard_provider = {
       name = "Provider for Hermes Dashbaord";
@@ -9,9 +8,6 @@
       authorization_flow = "\${data.authentik_flow.default_authorization_flow.id}";
       invalidation_flow = "\${data.authentik_flow.default_invalidation_flow.id}";
       mode = "forward_single";
-      basic_auth_enabled = true;
-      basic_auth_username_attribute = "username";
-      basic_auth_password_attribute = "password";
     };
     authentik_application.hermes_dashboard = {
       name = "Hermes Dashboard";
@@ -26,10 +22,6 @@
         "\${data.authentik_user.whale.id}"
       ];
       is_superuser = false;
-      attributes = "\${jsonencode({
-        username = local.hermes_dashboard_env[\"HERMES_DASHBOARD_BASIC_AUTH_USERNAME\"]
-        password = local.hermes_dashboard_env[\"HERMES_DASHBOARD_BASIC_AUTH_PASSWORD\"]
-      })}";
     };
     authentik_policy_binding.hermes_dashboard_policy = {
       target = "\${authentik_application.hermes_dashboard.uuid}";
