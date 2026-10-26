@@ -72,15 +72,13 @@
   };
   slskd = {
     download_path = "/data/downloads/music/slskd";
+    port = 5030;
   };
   sabnzbd = {
     port = 8080;
   };
   aurral = {
     port = 3001;
-  };
-  slskd = {
-    port = 5030;
   };
   opengym = {
     web = {

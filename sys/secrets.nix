@@ -29,7 +29,8 @@
         group = "${config.services.traefik.group}";
         mode = "0440";
       };
-      gluetun.file = ../secrets/shared/gluetun.age;
+      gluetun-transmission.file = ../secrets/shared/gluetun/transmission.age;
+      gluetun-slskd.file = ../secrets/shared/gluetun/slskd.age;
       grafana-secret = {
         file = ../secrets/shared/grafana-secret.age;
         owner = "grafana";

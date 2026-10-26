@@ -4,7 +4,6 @@
   imports = [
     ./openbooks.nix
     ./transmission.nix
-    ./gluetun.nix
     ./nextcloud.nix
     ./maintainerr.nix
     ./actualbudget.nix

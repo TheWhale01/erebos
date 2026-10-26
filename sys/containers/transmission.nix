@@ -4,7 +4,7 @@
   virtualisation.oci-containers.containers = {
     transmission = {
       image = "lscr.io/linuxserver/transmission:latest";
-      extraOptions = [ "--network=container:gluetun" ];
+      extraOptions = [ "--network=container:gluetun-transmission" ];
       volumes = [
         "/var/lib/transmission:/config"
         "/data:/data"
@@ -16,7 +16,7 @@
         TZ = "Europe/Paris";
         LOG_LEVEL = "debug";
       };
-      dependsOn = [ "gluetun" ];
+      dependsOn = [ "gluetun-transmission" ];
     };
     flood = {
       hostname = "flood";
@@ -36,13 +36,13 @@
         "/data:/data"
       ];
       dependsOn = [ "transmission" ];
-      extraOptions = [ "--network=container:gluetun" ];
+      extraOptions = [ "--network=container:gluetun-transmission" ];
     };
     transmission-port-sync = {
       image = "alpine:latest";
       dependsOn = [ "transmission" ];
       volumes = [
-        "/tmp/gluetun:/tmp/gluetun:ro"
+        "/tmp/gluetun-transmission:/tmp/gluetun:ro"
       ];
       environmentFiles = [
         config.age.secrets.transmission.path
@@ -66,7 +66,37 @@
           done
         ''
       ];
-      extraOptions = [ "--network=container:gluetun" ];
+      extraOptions = [ "--network=container:gluetun-transmission" ];
+    };
+    gluetun-transmission = {
+      image = "qmcgaw/gluetun:latest";
+      extraOptions = [
+        "--cap-add=NET_ADMIN"
+        "--cap-add=NET_RAW"
+        "--device=/dev/net/tun:/dev/net/tun"
+      ];
+      ports = [
+        "${toString vars.transmission.flood.port}:3001" # FLOOD
+        "${toString vars.transmission.port}:9091" # TRANSMISSION
+      ];
+      environment = {
+        VPN_PORT_FORWARDING_UP_COMMAND = ''
+          /bin/sh -c 'command -v transmission-remote >/dev/null 2>&1 || (apk update && apk add transmission-remote); transmission-remote localhost:9091 -n "$USER:$PASS" -p {{PORT}}'
+        '';
+        VPN_SERVICE_PROVIDER = "protonvpn";
+        VPN_TYPE = "wireguard";
+        SERVER_COUNTRIES = "Switzerland";
+        VPN_PORT_FORWARDING = "on";
+        VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
+      };
+      environmentFiles = [
+        config.age.secrets.gluetun-transmission.path
+        config.age.secrets.transmission.path
+      ];
+      volumes = [
+        "gluetun-transmission:/gluetun"
+        "/tmp/gluetun-transmission:/tmp/gluetun"
+      ];
     };
   };
   services.traefik.dynamicConfigOptions.http = {
@@ -99,10 +129,10 @@
     };
   };
   systemd.services."podman-transmission" = {
-    after = [ "podman-gluetun.service" ];
-    requires = [ "podman-gluetun.service" ];
-    bindsTo = [ "podman-gluetun.service" ];
-    partOf = [ "podman-gluetun.service" ];
+    after = [ "podman-gluetun-transmission.service" ];
+    requires = [ "podman-gluetun-transmission.service" ];
+    bindsTo = [ "podman-gluetun-transmission.service" ];
+    partOf = [ "podman-gluetun-transmission.service" ];
   };
   systemd.services."podman-flood" = {
     after = [ "podman-transmission.service" ];

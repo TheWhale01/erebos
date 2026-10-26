@@ -13,7 +13,8 @@ in
   "shared/hermes.age".publicKeys = shared;
   "shared/hades.age".publicKeys = shared;
   "shared/traefik.age".publicKeys = shared;
-  "shared/gluetun.age".publicKeys = shared;
+  "shared/gluetun/transmission.age".publicKeys = shared;
+  "shared/gluetun/slskd.age".publicKeys = shared;
   "shared/grafana-secret.age".publicKeys = shared;
   "shared/transmission.age".publicKeys = shared;
   "shared/matrix/alertmanager-webhook.age".publicKeys = shared;
