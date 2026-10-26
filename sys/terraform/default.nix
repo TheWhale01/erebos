@@ -27,5 +27,6 @@
     ./lidarr.nix
     ./slskd.nix
     ./aurral.nix
+    ./hermes.nix
   ];
 }

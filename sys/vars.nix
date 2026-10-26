@@ -85,4 +85,9 @@
       port = 3006;
     };
   };
+  hermes = {
+    dashboard = {
+      port = 9119;
+    };
+  };
 }

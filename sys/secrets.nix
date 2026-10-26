@@ -5,6 +5,9 @@
     secrets = {
       hermes = {
         file = ../secrets/shared/hermes.age;
+        owner = "hermes";
+        group = "users";
+        mode = "0440";
       };
       aurral = {
         file = ../secrets/${env}/aurral.age;
