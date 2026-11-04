@@ -9,13 +9,13 @@
     ];
     settings = {
       model = {
+        provider = "openrouter";
+        default = "qwen/qwen3.8-flash";
+      };
+      fallback_providers = [{
         provider = "custom";
         base_url = "http://127.0.0.1:${toString config.services.llama-cpp.port}/v1";
         default = "LiquidAI/LFM3-1.7B-GGUF:Q6_K";
-      };
-      fallback_providers = [{
-        provider = "openrouter";
-        default = "qwen/qwen3.8-flash";
       }];
       matrix = {
         require_mention = true;

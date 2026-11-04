@@ -4,7 +4,7 @@
 	services.llama-cpp = {
 		enable = true;
 		package = pkgs-unstable.llama-cpp;
-		host = "0.0.0.0";
+		host = "127.0.0.1";
 		modelsPreset = {
 		  "LFM3-1.7B" = {
 				hf-repo = "LiquidAI/LFM3-1.7B-GGUF";
