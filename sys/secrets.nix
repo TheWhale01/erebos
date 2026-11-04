@@ -5,9 +5,8 @@
     secrets = {
       hermes = {
         file = ../secrets/shared/hermes.age;
-        owner = "hermes";
-        group = "users";
-        mode = "0440";
+        owner = "${config.services.hermes-agent.user}";
+        mode = "0400";
       };
       aurral = {
         file = ../secrets/${env}/aurral.age;

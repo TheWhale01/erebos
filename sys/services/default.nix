@@ -14,7 +14,7 @@
     ./traefik.nix
     ./vaultwarden.nix
     ./blog.nix
-    ./ollama.nix
+    ./llamacpp.nix
     ./immich.nix
     ./cleanerr.nix
     ./matrix

@@ -114,11 +114,5 @@
 
   services.resolved.enable = true;
 
-  system.autoUpgrade = {
-    enable = true;
-    allowReboot = true;
-    dates = "Sun 04:00";
-    randomizedDelaySec = "30min";
-  };
   system.stateVersion = "24.11";
 }

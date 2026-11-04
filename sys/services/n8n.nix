@@ -1,8 +1,9 @@
-{ vars, config, ... }:
+{ vars, pkgs-unstable, config, ... }:
 
 {
   services.n8n = {
     enable = true;
+    package = pkgs-unstable.n8n;
     environment = {
       N8N_EDITOR_BASE_URL = "https://n8n.${vars.traefik.domain}";
     };
