@@ -4,7 +4,7 @@
   services.prometheus = {
     enable = true;
     port = 9090;
-    listenAddress = "0.0.0.0";
+    listenAddress = "127.0.0.1";
     rules = [
       ''
         groups:
