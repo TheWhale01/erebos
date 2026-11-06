@@ -1,7 +1,7 @@
 { config, vars, ... }:
 
 let
-  authentikVersion = "2026.8.1";
+  authentikVersion = "2026.8.5";
   env = {
     AUTHENTIK_DISABLE_STARTUP_ANALYTICS = "true";
     AUTHENTIK_AVATARS = "initials";
