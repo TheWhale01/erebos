@@ -5,31 +5,6 @@
     enable = true;
     port = 9090;
     listenAddress = "127.0.0.1";
-    rules = [
-      ''
-        groups:
-        - name: systemd_status
-          rules:
-          # Rule 1: The service crashed (entered 'failed' state)
-          - alert: ServiceCrashed
-            expr: node_systemd_unit_state{state="failed"} == 1
-            for: 1m
-            labels:
-              severity: critical
-            annotations:
-              summary: "Service Crashed: {{ $labels.name }}"
-              description: "The systemd service {{ $labels.name }} has entered a failed state on {{ $labels.instance }}."
-          # Rule 2: The service is gracefully stopped, but shouldn't be
-          - alert: ServiceOffline
-            expr: node_systemd_unit_state{state="active"} == 0
-            for: 3m
-            labels:
-              severity: warning
-            annotations:
-              summary: "Service Offline: {{ $labels.name }}"
-              description: "The systemd service {{ $labels.name }} has been down for over 3 minutes."
-      ''
-    ];
     alertmanagers = [{
       static_configs = [{
         targets = [
@@ -70,10 +45,6 @@
         port = 9100;
         listenAddress = "127.0.0.1";
         enabledCollectors = [ "systemd" "tcpstat" ];
-        extraFlags = [
-          "--collector.systemd.unit-include=(matrix-synapse|prometheus|grafana|loki|promtail|authentik|nginx|homepage-dashboard|immich|seerr|ollama|prowlarr|radarr|sonarr|traefik|vaultwarden|podman-.+).service"
-          "--collector.systemd.unit-exclude=^podman-prune\\.service$"
-        ];
       };
     };
     alertmanager = {
@@ -101,13 +72,13 @@
   services.matrix-alertmanager = {
     enable = true;
     port = 3004;
-    homeserverUrl = "https://matrix.${vars.traefik.domain}";
+    homeserverUrl = "http://127.0.0.1:${toString vars.matrix.port}";
     matrixUser = "@${config.services.prometheus.alertmanager.configuration.route.receiver}:matrix.${vars.traefik.domain}";
     tokenFile = config.age.secrets.erebot.path;
     secretFile = config.age.secrets.matrix-alertmanager-webhook.path;
     matrixRooms = [{
       receivers = [ "${config.services.prometheus.alertmanager.configuration.route.receiver}" ];
-      roomId = "!FVqWRrn1hvNO8Ykzs3xEdSP00B3mokJ7Ad38LkqNL0Y:matrix.${vars.traefik.domain}";
+      roomId = "!C-EIAS89vRQV7k6yUk34TTqXDro5S3Xwx_sJidUW3Lk";
     }];
   };
 }
