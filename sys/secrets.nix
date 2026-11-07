@@ -3,6 +3,11 @@
 {
   age = {
     secrets = {
+      prometheus = {
+        file = ../secrets/shared/prometheus.age;
+        owner = vars.prometheus.user;
+        mode = "0400";
+      };
       hermes = {
         file = ../secrets/shared/hermes.age;
         owner = "${config.services.hermes-agent.user}";

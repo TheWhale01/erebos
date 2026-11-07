@@ -22,6 +22,7 @@ in
   "shared/matrix/livekit.age".publicKeys = shared;
   "shared/authentik/smtp.age".publicKeys = shared;
   "shared/slskd.age".publicKeys = shared;
+  "shared/prometheus.age".publicKeys = shared;
 
   "prod/aurral.age".publicKeys = prod;
   "prod/actualbudget.age".publicKeys = prod;

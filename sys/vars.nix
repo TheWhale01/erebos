@@ -66,6 +66,7 @@
   };
   prometheus = {
     uid = "G0CojlhIuEI8Z0Rsyl5VGVP2qpzHW9Wy";
+    user = "prometheus";
   };
   lidarr = {
     port = 8686;
