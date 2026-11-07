@@ -49,7 +49,6 @@
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
   };
-  boot.initrd.systemd.enable = false;
 
   networking = {
     hostName = if env == "prod" then "erebos" else "erebos-${env}";
