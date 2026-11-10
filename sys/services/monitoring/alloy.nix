@@ -23,7 +23,7 @@ let
       max_age       = "12h"
       labels = {
         job  = "systemd-journal",
-        host = "127.0.0.1",
+        host = "erebos",
       }
       relabel_rules = discovery.relabel.journal.rules
       forward_to    = [loki.process.system.receiver]

@@ -7,12 +7,14 @@
   };
 
   data.http.node_exporter.url = "https://grafana.com/api/dashboards/1860/revisions/latest/download";
-  data.http.authentik.url = "https://grafana.com/api/dashboards/14837/revisions/latest/download";
+  data.http.traefik.url = "https://grafana.com/api/dashboards/17346/revisions/latest/download";
+  data.http.loki.url = "https://grafana.com/api/dashboards/14055/revisions/latest/download";
 
   resource = {
     grafana_dashboard = {
       node_exporter.config_json = "\${data.http.node_exporter.response_body}";
-      authentik.config_json = "\${replace(data.http.authentik.response_body, \"$${DS_PROMETHEUS}\", \"${vars.prometheus.uid}\")}";
+      traefik.config_json = "\${replace(data.http.traefik.response_body, \"$${DS_PROMETHEUS}\", \"${vars.prometheus.uid}\")}";
+      loki.config_json = "\${data.http.loki.response_body}";
     };
     authentik_provider_oauth2.grafana_provider = {
       name = "Provider for Grafana";

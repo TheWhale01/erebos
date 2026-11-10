@@ -111,6 +111,12 @@
           targets = [ "${config.services.traefik.staticConfigOptions.entryPoints.metrics.address}" ];
         }];
       }
+      {
+        job_name = "alloy";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString vars.alloy.port}" ];
+        }];
+      }
     ];
     exporters = {
       node = {
