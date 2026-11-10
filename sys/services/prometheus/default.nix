@@ -57,6 +57,12 @@ in
           targets = [ "127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}" ];
         }];
       }
+      {
+        job_name = "smartctl";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}" ];
+        }];
+      }
     ];
     exporters = {
       node = {
@@ -64,6 +70,10 @@ in
         port = 9100;
         listenAddress = "127.0.0.1";
         enabledCollectors = [ "systemd" "tcpstat" ];
+      };
+      smartctl = {
+        enable = true;
+        listenAddress = "127.0.0.1";
       };
     };
     alertmanager = {

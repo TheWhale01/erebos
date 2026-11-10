@@ -27,6 +27,7 @@ let
     "radarr"
     "prowlarr"
     "livekit"
+    "smartd"
   ];
 in
 {
@@ -133,6 +134,49 @@ in
             for = "30m";
             labels.severity = "warning";
             annotations.summary = "No log lines received 30m while Loki up — journal->alloy->loki chain stalled";
+          }
+        ];
+      }
+      {
+        name = "drive_health";
+        rules = [
+          {
+            alert = "DiskSmartFailing";
+            expr = ''smartctl_device_smart_status == 0'';
+            for = "5m";
+            labels.severity = "critical";
+            annotations = {
+              summary = "SMART status FAILED on {{ $labels.device }}";
+              description = "{{ $labels.device }} ({{ $labels.model_name }}) reports SMART overall-health FAILED — linear LVM pool, no redundancy: plan replacement NOW.";
+            };
+          }
+          {
+            alert = "DiskReallocatedSectors";
+            expr = ''smartctl_device_attribute{attribute_name="Reallocated_Sector_Ct",attribute_value_type="raw"} > 0'';
+            for = "30m";
+            labels.severity = "warning";
+            annotations.summary = "{{ $labels.device }}: {{ $value | humanize }} reallocated sectors";
+          }
+          {
+            alert = "DiskPendingSectors";
+            expr = ''smartctl_device_attribute{attribute_name="Current_Pending_Sector",attribute_value_type="raw"} > 0'';
+            for = "30m";
+            labels.severity = "warning";
+            annotations.summary = "{{ $labels.device }}: {{ $value | humanize }} pending sectors (reads waiting to remap)";
+          }
+          {
+            alert = "DiskUncorrectableSectors";
+            expr = ''smartctl_device_attribute{attribute_name="Offline_Uncorrectable",attribute_value_type="raw"} > 0'';
+            for = "30m";
+            labels.severity = "critical";
+            annotations.summary = "{{ $labels.device }}: {{ $value | humanize }} UNCORRECTABLE sectors — data loss likely";
+          }
+          {
+            alert = "DiskTooHot";
+            expr = ''smartctl_device_temperature{temperature_type="current"} > 55'';
+            for = "10m";
+            labels.severity = "warning";
+            annotations.summary = "{{ $labels.device }} at {{ $value | humanize }}°C";
           }
         ];
       }
