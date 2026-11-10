@@ -4,7 +4,7 @@
   imports = [
     ./grafana.nix
     ./loki.nix
-    ./promtail.nix
+    ./alloy.nix
     ./prometheus.nix
   ];
 }

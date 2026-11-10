@@ -125,6 +125,7 @@
       port = 9093;
       openFirewall = false;
       environmentFile = config.age.secrets.prometheus.path;
+      listenAddress = "127.0.0.1";
       configuration = {
         route = {
           receiver = "erebot";
@@ -148,6 +149,7 @@
     port = 3004;
     homeserverUrl = "http://127.0.0.1:${toString vars.matrix.port}";
     matrixUser = "@${config.services.prometheus.alertmanager.configuration.route.receiver}:matrix.${vars.traefik.domain}";
+    mention = true;
     tokenFile = config.age.secrets.erebot.path;
     secretFile = config.age.secrets.matrix-alertmanager-webhook.path;
     matrixRooms = [{
