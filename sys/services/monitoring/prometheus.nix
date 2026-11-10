@@ -161,12 +161,17 @@
     port = 3004;
     homeserverUrl = "http://127.0.0.1:${toString vars.matrix.port}";
     matrixUser = "@${config.services.prometheus.alertmanager.configuration.route.receiver}:matrix.${vars.traefik.domain}";
-    mention = true;
+    mention = false;
     tokenFile = config.age.secrets.erebot.path;
     secretFile = config.age.secrets.matrix-alertmanager-webhook.path;
     matrixRooms = [{
       receivers = [ "${config.services.prometheus.alertmanager.configuration.route.receiver}" ];
       roomId = "!C-EIAS89vRQV7k6yUk34TTqXDro5S3Xwx_sJidUW3Lk";
     }];
+  };
+  systemd.services.matrix-alertmanager = {
+    environment = {
+      ALERT_LINKS = "Alerts:{annotations.matrixNoLink}";
+    };
   };
 }
