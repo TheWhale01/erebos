@@ -6,5 +6,6 @@
     ./loki.nix
     ./alloy.nix
     ./prometheus.nix
+    ./geoip.nix
   ];
 }

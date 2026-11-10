@@ -45,11 +45,25 @@ let
           }
         }
 
+        stage.geoip {
+          source  = "client_ip"
+          db      = "/var/lib/geoip/GeoLite2-City.mmdb"
+          db_type = "city"
+        }
+
+        stage.structured_metadata {
+          values = {
+            geo_country = "geoip_country_code",
+            geo_city    = "geoip_city_name",
+          }
+        }
+
         stage.labels {
           values = {
             status       = "",
             request_path = "",
             method       = "",
+            geoip_country_name = "",
           }
         }
       }

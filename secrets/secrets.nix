@@ -23,6 +23,7 @@ in
   "shared/authentik/smtp.age".publicKeys = shared;
   "shared/slskd.age".publicKeys = shared;
   "shared/prometheus.age".publicKeys = shared;
+  "shared/maxmind.age".publicKeys = shared;
 
   "prod/aurral.age".publicKeys = prod;
   "prod/actualbudget.age".publicKeys = prod;

@@ -45,6 +45,7 @@
         {
           name = "Loki";
           type = "loki";
+          uid = "${vars.loki.uid}";
           url = "http://${config.services.loki.configuration.common.instance_addr}:${toString config.services.loki.configuration.server.http_listen_port}";
         }
       ];

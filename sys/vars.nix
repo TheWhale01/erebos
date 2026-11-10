@@ -94,4 +94,7 @@
   alloy = {
     port = 12345;
   };
+  loki = {
+    uid = "P8E80F9AEF21F6940";
+  };
 }

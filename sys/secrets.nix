@@ -3,6 +3,10 @@
 {
   age = {
     secrets = {
+      maxmind = {
+        file = ../secrets/shared/maxmind.age;
+        mode = "0400";
+      };
       prometheus = {
         file = ../secrets/shared/prometheus.age;
         owner = vars.prometheus.user;
