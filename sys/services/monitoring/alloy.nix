@@ -35,7 +35,6 @@ let
       // Traefik JSON access logs -> structured labels (accessLog.format=json is set in traefik.nix)
       stage.match {
         selector = "{unit=\"traefik.service\"}"
-
         stage.json {
           expressions = {
             status       = "DownstreamStatus",
@@ -43,6 +42,33 @@ let
             client_ip    = "ClientHost",
             method       = "RequestMethod",
           }
+        }
+        stage.geoip {
+          source  = "client_ip"
+          db      = "/var/lib/geoip/GeoLite2-City.mmdb"
+          db_type = "city"
+        }
+        stage.structured_metadata {
+          values = {
+            geo_country = "geoip_country_code",
+            geo_city    = "geoip_city_name",
+          }
+        }
+        stage.labels {
+          values = {
+            status       = "",
+            request_path = "",
+            method       = "",
+            geoip_country_name = "",
+          }
+        }
+      }
+
+      stage.match {
+        selector = "{unit=\"sshd.service\"}"
+
+        stage.regex {
+          expression = "(?:from|by) (?P<client_ip>[0-9a-fA-F.:]+)"
         }
 
         stage.geoip {
@@ -60,9 +86,6 @@ let
 
         stage.labels {
           values = {
-            status       = "",
-            request_path = "",
-            method       = "",
             geoip_country_name = "",
           }
         }
