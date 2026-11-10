@@ -90,6 +90,32 @@ let
           }
         }
       }
+      stage.match {
+        selector = "{unit=\"fail2ban.service\"}"
+
+        stage.regex {
+          expression = "Ban (?P<client_ip>[0-9a-fA-F.:]+)"
+        }
+
+        stage.geoip {
+          source  = "client_ip"
+          db      = "/var/lib/geoip/GeoLite2-City.mmdb"
+          db_type = "city"
+        }
+
+        stage.structured_metadata {
+          values = {
+            geo_country = "geoip_country_code",
+            geo_city    = "geoip_city_name",
+          }
+        }
+
+        stage.labels {
+          values = {
+            geoip_country_name = "",
+          }
+        }
+      }
     }
   '';
 in

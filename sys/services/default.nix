@@ -21,5 +21,6 @@
     ./monitoring
     ./n8n.nix
     ./hermes.nix
+    ./fail2ban.nix
   ];
 }
