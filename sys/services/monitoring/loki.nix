@@ -6,6 +6,8 @@
     configuration = {
       server = {
         http_listen_port = 3100;
+        http_listen_address = "127.0.0.1";
+        grpc_listen_address = "127.0.0.1";
       };
       auth_enabled = false;
       common = {
