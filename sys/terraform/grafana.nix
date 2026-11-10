@@ -8,14 +8,13 @@
 
   data.http.node_exporter.url = "https://grafana.com/api/dashboards/1860/revisions/latest/download";
   data.http.traefik.url = "https://grafana.com/api/dashboards/17346/revisions/latest/download";
-  data.http.geoip.url = "https://grafana.com/api/dashboards/17877/revisions/latest/download";
 
   resource = {
     grafana_dashboard = {
       node_exporter.config_json = "\${data.http.node_exporter.response_body}";
       traefik.config_json = "\${replace(data.http.traefik.response_body, \"$${DS_PROMETHEUS}\", \"${vars.prometheus.uid}\")}";
       geoip.config_json = "${builtins.replaceStrings [ "\${DS_LOKI}" ] [ "${toString vars.loki.uid}" ] (builtins.readFile ./dashboards/geoip.json)}";
-      # systemd_journal.config_json = "${builtins.readFile ./dashboards/systemd-journal.json}";
+      systemd_journal.config_json = "${builtins.replaceStrings [ "\${DS_LOKI}" ] [ "${toString vars.loki.uid}" ] (builtins.readFile ./dashboards/systemd-journal.json)}";
     };
     authentik_provider_oauth2.grafana_provider = {
       name = "Provider for Grafana";
