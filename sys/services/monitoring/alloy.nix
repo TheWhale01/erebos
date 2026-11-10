@@ -57,7 +57,6 @@ let
         stage.labels {
           values = {
             status       = "",
-            request_path = "",
             method       = "",
             geoip_country_name = "",
           }
