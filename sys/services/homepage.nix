@@ -70,7 +70,7 @@
                 version = 2;
               };
             };
-          },
+          }
           {
             Aurral = {
               icon = "aurral.png";
@@ -153,7 +153,7 @@
               description = "Search and Download eBooks.";
               href = "https://openbooks.${vars.traefik.domain}";
             };
-          },
+          }
           {
             Slskd = {
               icon = "slskd.png";
@@ -204,14 +204,14 @@
               href = "https://blog.${vars.traefik.domain}";
               description = "My personal blog mainly about my server !";
             };
-          },
+          }
           {
             ActualBudget = {
               icon = "actualbudget.png";
               description = "Actual Budget — open-source personal finance";
               href = "https://actualbudget.${vars.traefik.domain}";
             };
-          },
+          }
           {
             OpenGym = {
               icon = "opengym.png";
@@ -287,7 +287,7 @@
               description = "AI Workflow Automation Platform";
               href = "https://n8n.${vars.traefik.domain}";
             };
-          },
+          }
           {
             HermesDashboard = {
               icon = "hermes.png";

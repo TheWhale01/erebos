@@ -21,15 +21,20 @@
         allowed_users = [
           "@whale:matrix.${vars.traefik.domain}"
         ];
-	allowed_rooms = [
-	  "!pAyXqyT3G8U4zoop8nyBM3E8_tby94cR3ox1W1qYU_I"
-	  "!qDa2bMw3RwhzyP9Vfe7Z4JxTqA739OrGUYCH9f8tHLc"
-	];
+        allowed_rooms = [
+          "!pAyXqyT3G8U4zoop8nyBM3E8_tby94cR3ox1W1qYU_I"
+          "!qDa2bMw3RwhzyP9Vfe7Z4JxTqA739OrGUYCH9f8tHLc"
+        ];
       };
     };
   };
-  systemd.services.hermes-agent.environment = {
-    WIKI_PATH = "/var/lib/hermes/workspace/blog-ideas";
+  systemd.services.hermes-agent = {
+    path = with pkgs; [
+      gh
+    ];
+    environment = {
+      WIKI_PATH = "/var/lib/hermes/workspace/blog-ideas";
+    };
   };
   systemd.services.hermes-dashboard = {
     description = "Hermes Agent Web Dashboard";
