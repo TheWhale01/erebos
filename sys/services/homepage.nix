@@ -70,6 +70,13 @@
                 version = 2;
               };
             };
+          },
+          {
+            Slskd = {
+              icon = "slskd.png";
+              description = "Slskd — soulseek music streaming";
+              href = "https://slskd.${vars.traefik.domain}";
+            };
           }
         ];
       }
@@ -189,6 +196,13 @@
             Blog = {
               href = "https://blog.${vars.traefik.domain}";
               description = "My personal blog mainly about my server !";
+            };
+          },
+          {
+            ActualBudget = {
+              icon = "actualbudget.png";
+              description = "Actual Budget — open-source personal finance";
+              href = "https://actualbudget.${vars.traefik.domain}";
             };
           }
         ];
