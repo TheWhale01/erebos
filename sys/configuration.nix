@@ -105,7 +105,6 @@
       "render"
       "audio"
       "keys"
-      "hermes"
     ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [

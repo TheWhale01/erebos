@@ -1,9 +1,8 @@
-{ config, vars, ... }:
+{ config, vars, inputs, pkgs, ... }:
 
 {
   services.hermes-agent = {
     enable = true;
-    addToSystemPackages = true;
     environmentFiles = [
       config.age.secrets.hermes.path
     ];
@@ -27,7 +26,6 @@
   };
   systemd.services.hermes-agent.environment = {
     WIKI_PATH = "/var/lib/hermes/workspace/blog-ideas";
-    MATRIX_HOME_CHANNEL = "!qDa2bMw3RwhzyP9Vfe7Z4JxTqA739OrGUYCH9f8tHLc";
   };
   systemd.services.hermes-dashboard = {
     description = "Hermes Agent Web Dashboard";
@@ -37,7 +35,7 @@
       User = "${config.services.hermes-agent.user}";
       Group = "${config.services.hermes-agent.group}";
       EnvironmentFile = config.age.secrets.hermes.path;
-      ExecStart = "/run/current-system/sw/bin/hermes dashboard --host 127.0.0.1 --port ${toString vars.hermes.dashboard.port} --no-open";
+      ExecStart = "${inputs.hermes.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/hermes dashboard --host 127.0.0.1 --port ${toString vars.hermes.dashboard.port} --no-open";
       Restart = "always";
       RestartSec = 10;
       RestartPreventExitStatus = 78;

@@ -28,6 +28,5 @@
     ./prometheus
     ./geoip.nix
     ./fwupd.nix
-    ./sunshine.nix
   ];
 }
