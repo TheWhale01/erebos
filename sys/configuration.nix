@@ -4,6 +4,7 @@
   env,
   ...
 }:
+
 {
   imports = [
     ./hardware-configuration.nix
@@ -13,6 +14,25 @@
     ./disko/${env}.nix
     ./packages.nix
   ];
+
+  services.xserver.videoDrivers = [ "modesetting" ];
+
+  hardware.enableRedistributableFirmware = true;
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vpl-gpu-rt
+      intel-compute-runtime
+    ];
+  };
+
+  security.wrappers.nvtop = {
+    owner = "root";
+    group = "root";
+    setuid = true;
+    source = "${pkgs.nvtopPackages.full}/bin/nvtop";
+  };
 
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
@@ -49,6 +69,7 @@
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
   };
+  boot.kernelParams = [ "i915.enable_guc=3" ];
 
   networking = {
     hostName = if env == "prod" then "erebos" else "erebos-${env}";
@@ -84,7 +105,6 @@
       "render"
       "audio"
       "keys"
-      "hermes"
     ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
@@ -109,6 +129,7 @@
   environment.sessionVariables = rec {
     TERM = "xterm-256color";
     EDITOR = "vim";
+    LIBVA_DRIVER_NAME = "iHD";
   };
 
   services.resolved.enable = true;

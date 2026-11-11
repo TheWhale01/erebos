@@ -18,9 +18,15 @@
     ./immich.nix
     ./cleanerr.nix
     ./matrix
-    ./monitoring
     ./n8n.nix
     ./hermes.nix
     ./fail2ban.nix
+    ./smartd.nix
+    ./grafana.nix
+    ./loki.nix
+    ./alloy.nix
+    ./prometheus
+    ./geoip.nix
+    ./fwupd.nix
   ];
 }
