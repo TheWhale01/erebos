@@ -259,6 +259,13 @@
               description = "AI Workflow Automation Platform";
               href = "https://n8n.${vars.traefik.domain}";
             };
+          },
+          {
+            HermesDashboard = {
+              icon = "hermes.png";
+              description = "The Hermes Agent web dashboard (Odin) — status, chat, sessions, config";
+              href = "https://hermes-dashboard.${vars.traefik.domain}";
+            };
           }
         ];
       }
