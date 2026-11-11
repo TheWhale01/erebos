@@ -72,10 +72,10 @@
             };
           },
           {
-            Slskd = {
-              icon = "slskd.png";
-              description = "Slskd — soulseek music streaming";
-              href = "https://slskd.${vars.traefik.domain}";
+            Aurral = {
+              icon = "aurral.png";
+              description = "Aurral — self-hosted personal dashboard (OIDC via Authentik)";
+              href = "https://aurral.${vars.traefik.domain}";
             };
           }
         ];
@@ -152,6 +152,13 @@
               icon = "bookstack.png";
               description = "Search and Download eBooks.";
               href = "https://openbooks.${vars.traefik.domain}";
+            };
+          },
+          {
+            Slskd = {
+              icon = "slskd.png";
+              description = "Slskd — soulseek music streaming";
+              href = "https://slskd.${vars.traefik.domain}";
             };
           }
         ];
@@ -286,13 +293,6 @@
               icon = "hermes.png";
               description = "The Hermes Agent web dashboard (Odin) — status, chat, sessions, config";
               href = "https://hermes-dashboard.${vars.traefik.domain}";
-            };
-          },
-          {
-            Aurral = {
-              icon = "aurral.png";
-              description = "Aurral — self-hosted personal dashboard (OIDC via Authentik)";
-              href = "https://aurral.${vars.traefik.domain}";
             };
           }
         ];
