@@ -70,6 +70,13 @@
                 version = 2;
               };
             };
+          },
+          {
+            Aurral = {
+              icon = "aurral.png";
+              description = "Aurral — self-hosted personal dashboard (OIDC via Authentik)";
+              href = "https://aurral.${vars.traefik.domain}";
+            };
           }
         ];
       }
@@ -146,6 +153,13 @@
               description = "Search and Download eBooks.";
               href = "https://openbooks.${vars.traefik.domain}";
             };
+          },
+          {
+            Slskd = {
+              icon = "slskd.png";
+              description = "Slskd — soulseek music streaming";
+              href = "https://slskd.${vars.traefik.domain}";
+            };
           }
         ];
       }
@@ -189,6 +203,20 @@
             Blog = {
               href = "https://blog.${vars.traefik.domain}";
               description = "My personal blog mainly about my server !";
+            };
+          },
+          {
+            ActualBudget = {
+              icon = "actualbudget.png";
+              description = "Actual Budget — open-source personal finance";
+              href = "https://actualbudget.${vars.traefik.domain}";
+            };
+          },
+          {
+            OpenGym = {
+              icon = "opengym.png";
+              description = "OpenGym — self-hosted workout platform with passkeys";
+              href = "https://opengym.${vars.traefik.domain}";
             };
           }
         ];
@@ -258,6 +286,13 @@
               icon = "n8n.png";
               description = "AI Workflow Automation Platform";
               href = "https://n8n.${vars.traefik.domain}";
+            };
+          },
+          {
+            HermesDashboard = {
+              icon = "hermes.png";
+              description = "The Hermes Agent web dashboard (Odin) — status, chat, sessions, config";
+              href = "https://hermes-dashboard.${vars.traefik.domain}";
             };
           }
         ];
