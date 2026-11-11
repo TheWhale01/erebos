@@ -10,12 +10,12 @@
     settings = {
       model = {
         provider = "openrouter";
-        default = "qwen/qwen3.8-flash";
+        default = "liquid/lfm-3-1.7b:free";
       };
       fallback_providers = [{
         provider = "custom";
         base_url = "http://127.0.0.1:${toString config.services.llama-cpp.port}/v1";
-        default = "LiquidAI/LFM3-1.7B-GGUF:Q6_K";
+        default = "LFM3-1.7B";
       }];
       matrix = {
         require_mention = true;
@@ -27,6 +27,7 @@
   };
   systemd.services.hermes-agent.environment = {
     WIKI_PATH = "/var/lib/hermes/workspace/blog-ideas";
+    MATRIX_HOME_CHANNEL = "!qDa2bMw3RwhzyP9Vfe7Z4JxTqA739OrGUYCH9f8tHLc";
   };
   systemd.services.hermes-dashboard = {
     description = "Hermes Agent Web Dashboard";
