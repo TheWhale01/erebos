@@ -9,7 +9,7 @@
     settings = {
       model = {
         provider = "openrouter";
-        default = "liquid/lfm-3-1.7b:free";
+        default = "recursive/flint-v1.0:free";
       };
       fallback_providers = [{
         provider = "custom";
@@ -21,6 +21,10 @@
         allowed_users = [
           "@whale:matrix.${vars.traefik.domain}"
         ];
+	allowed_rooms = [
+	  "!pAyXqyT3G8U4zoop8nyBM3E8_tby94cR3ox1W1qYU_I"
+	  "!qDa2bMw3RwhzyP9Vfe7Z4JxTqA739OrGUYCH9f8tHLc"
+	];
       };
     };
   };
