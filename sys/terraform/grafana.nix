@@ -7,12 +7,16 @@
   };
 
   data.http.node_exporter.url = "https://grafana.com/api/dashboards/1860/revisions/latest/download";
-  data.http.authentik.url = "https://grafana.com/api/dashboards/14837/revisions/latest/download";
+  data.http.traefik.url = "https://grafana.com/api/dashboards/17346/revisions/latest/download";
+  data.http.smartctl.url = "https://grafana.com/api/dashboards/22604/revisions/latest/download";
 
   resource = {
     grafana_dashboard = {
       node_exporter.config_json = "\${data.http.node_exporter.response_body}";
-      authentik.config_json = "\${replace(data.http.authentik.response_body, \"$${DS_PROMETHEUS}\", \"${vars.prometheus.uid}\")}";
+      traefik.config_json = "\${replace(data.http.traefik.response_body, \"$${DS_PROMETHEUS}\", \"${vars.prometheus.uid}\")}";
+      geoip.config_json = "${builtins.replaceStrings [ "\${DS_LOKI}" ] [ "${toString vars.loki.uid}" ] (builtins.readFile ./dashboards/geoip.json)}";
+      systemd_journal.config_json = "${builtins.replaceStrings [ "\${DS_LOKI}" ] [ "${toString vars.loki.uid}" ] (builtins.readFile ./dashboards/systemd-journal.json)}";
+      smartctl.config_json = "\${replace(data.http.smartctl.response_body, \"$${DS_PROMETHEUS}\", \"${vars.prometheus.uid}\")}";
     };
     authentik_provider_oauth2.grafana_provider = {
       name = "Provider for Grafana";
