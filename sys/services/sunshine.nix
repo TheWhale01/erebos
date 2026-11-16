@@ -1,4 +1,6 @@
-{ ... }: {
+{ config, vars, ... }:
+
+{
   services.sunshine = {
     enable = true;
     openFirewall = true;
@@ -12,6 +14,19 @@
       upnp = false;
       ping_timeout = 10000;
       min_threads = 2;
+    };
+  };
+  services.traefik.dynamicConfigOptions.http = {
+    services.sunshine.loadBalancer.servers = [
+      {
+        url = "http://127.0.0.1:${toString config.services.sunshine.settings.port}";
+      }
+    ];
+    routers.sunshine = {
+      rule = "Host(`sunshine.${vars.traefik.domain}`)";
+      tls = true;
+      service = "sunshine";
+      entrypoints = "websecure";
     };
   };
 }
