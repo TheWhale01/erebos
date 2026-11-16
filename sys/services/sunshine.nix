@@ -3,12 +3,14 @@
 {
   services.sunshine = {
     enable = true;
+    autoStart = true;
     openFirewall = true;
     capSysAdmin = true;
     settings = {
       sunshine_name = "erebos";
       port = 47989;
-      address_family = "ipv6";
+      capture = "kms";
+      address_family = "any";
       max_bitrate = 0;
       stream_audio = true;
       upnp = false;
@@ -19,7 +21,7 @@
   services.traefik.dynamicConfigOptions.http = {
     services.sunshine.loadBalancer.servers = [
       {
-        url = "http://127.0.0.1:${toString config.services.sunshine.settings.port}";
+        url = "https://127.0.0.1:${toString config.services.sunshine.settings.port}";
       }
     ];
     routers.sunshine = {

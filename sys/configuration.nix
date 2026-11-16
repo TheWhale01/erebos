@@ -26,6 +26,7 @@
       intel-compute-runtime
     ];
   };
+  hardware.uinput.enable = true;
 
   security.wrappers.nvtop = {
     owner = "root";
@@ -105,6 +106,7 @@
       "render"
       "audio"
       "keys"
+      "uinput"
     ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
