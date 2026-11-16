@@ -6,6 +6,8 @@
     configuration = {
       server = {
         http_listen_port = 3100;
+        http_listen_address = "127.0.0.1";
+        grpc_listen_address = "127.0.0.1";
       };
       auth_enabled = false;
       common = {
@@ -30,6 +32,15 @@
           period = "24h";
         };
       }];
+      compactor = {
+        retention_enabled = true;
+        delete_request_store = "filesystem";
+        working_directory = "${config.services.loki.dataDir}/compactor";
+        compaction_interval = "10m";
+      };
+      limits_config = {
+        retention_period = "720h"; # 1 month
+      };
     };
   };
 }

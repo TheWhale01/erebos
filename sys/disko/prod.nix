@@ -1,10 +1,11 @@
-{ lib, ... }:
+{ ... }:
+
 {
   disko.devices = {
     disk = {
       nixos = {
         type = "disk";
-        device = "/dev/vda";
+        device = "/dev/sdd";
         content = {
           type = "gpt";
           partitions = {
@@ -43,7 +44,4 @@
       };
     };
   };
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-		"lvm vgchange -ay"
- 	'';
 }

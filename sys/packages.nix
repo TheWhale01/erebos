@@ -11,7 +11,6 @@
     fastfetch
     ripgrep
     tree
-    nvtopPackages.nvidia
     pciutils
     unzip
     tmux

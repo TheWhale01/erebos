@@ -85,7 +85,6 @@ in
       }];
       app_service_config_files = [
         config.age.secrets.matrix-appservice.path
-        # config.age.secrets.odin.path
       ];
       extra_well_known_client_content = {
         "org.matrix.msc4143.rtc_foci" = [{

@@ -1,32 +1,40 @@
-{ config, vars, ... }:
+{ config, vars, inputs, pkgs, ... }:
 
 {
   services.hermes-agent = {
     enable = true;
-    addToSystemPackages = true;
     environmentFiles = [
       config.age.secrets.hermes.path
     ];
     settings = {
       model = {
         provider = "openrouter";
-        default = "qwen/qwen3.8-flash";
+        default = "recursive/flint-v1.0:free";
       };
       fallback_providers = [{
         provider = "custom";
         base_url = "http://127.0.0.1:${toString config.services.llama-cpp.port}/v1";
-        default = "LiquidAI/LFM3-1.7B-GGUF:Q6_K";
+        default = "LFM3-1.7B";
       }];
       matrix = {
         require_mention = true;
         allowed_users = [
           "@whale:matrix.${vars.traefik.domain}"
         ];
+        allowed_rooms = [
+          "!pAyXqyT3G8U4zoop8nyBM3E8_tby94cR3ox1W1qYU_I"
+          "!qDa2bMw3RwhzyP9Vfe7Z4JxTqA739OrGUYCH9f8tHLc"
+        ];
       };
     };
   };
-  systemd.services.hermes-agent.environment = {
-    WIKI_PATH = "/var/lib/hermes/workspace/blog-ideas";
+  systemd.services.hermes-agent = {
+    path = with pkgs; [
+      gh
+    ];
+    environment = {
+      WIKI_PATH = "/var/lib/hermes/workspace/blog-ideas";
+    };
   };
   systemd.services.hermes-dashboard = {
     description = "Hermes Agent Web Dashboard";
@@ -36,7 +44,7 @@
       User = "${config.services.hermes-agent.user}";
       Group = "${config.services.hermes-agent.group}";
       EnvironmentFile = config.age.secrets.hermes.path;
-      ExecStart = "/run/current-system/sw/bin/hermes dashboard --host 127.0.0.1 --port ${toString vars.hermes.dashboard.port} --no-open";
+      ExecStart = "${inputs.hermes.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/hermes dashboard --host 127.0.0.1 --port ${toString vars.hermes.dashboard.port} --no-open";
       Restart = "always";
       RestartSec = 10;
       RestartPreventExitStatus = 78;

@@ -1,35 +1,14 @@
-{ config, vars, ... }:
+{ config, vars, pkgs, ... }:
 
+let
+  prom_config = import ./config.nix;
+  yaml_format = pkgs.formats.yaml {};
+in
 {
   services.prometheus = {
     enable = true;
     port = 9090;
     listenAddress = "127.0.0.1";
-    rules = [
-      ''
-        groups:
-        - name: systemd_status
-          rules:
-          # Rule 1: The service crashed (entered 'failed' state)
-          - alert: ServiceCrashed
-            expr: node_systemd_unit_state{state="failed"} == 1
-            for: 1m
-            labels:
-              severity: critical
-            annotations:
-              summary: "Service Crashed: {{ $labels.name }}"
-              description: "The systemd service {{ $labels.name }} has entered a failed state on {{ $labels.instance }}."
-          # Rule 2: The service is gracefully stopped, but shouldn't be
-          - alert: ServiceOffline
-            expr: node_systemd_unit_state{state="active"} == 0
-            for: 3m
-            labels:
-              severity: warning
-            annotations:
-              summary: "Service Offline: {{ $labels.name }}"
-              description: "The systemd service {{ $labels.name }} has been down for over 3 minutes."
-      ''
-    ];
     alertmanagers = [{
       static_configs = [{
         targets = [
@@ -37,6 +16,9 @@
         ];
       }];
     }];
+    ruleFiles = [
+      (yaml_format.generate "prometheus-rules.yaml" prom_config.rules)
+    ];
     scrapeConfigs = [
       {
         job_name = "prometheus";
@@ -63,6 +45,24 @@
           targets = [ "${config.services.traefik.staticConfigOptions.entryPoints.metrics.address}" ];
         }];
       }
+      {
+        job_name = "alloy";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString vars.alloy.port}" ];
+        }];
+      }
+      {
+        job_name = "loki";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}" ];
+        }];
+      }
+      {
+        job_name = "smartctl";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}" ];
+        }];
+      }
     ];
     exporters = {
       node = {
@@ -70,16 +70,18 @@
         port = 9100;
         listenAddress = "127.0.0.1";
         enabledCollectors = [ "systemd" "tcpstat" ];
-        extraFlags = [
-          "--collector.systemd.unit-include=(matrix-synapse|prometheus|grafana|loki|promtail|authentik|nginx|homepage-dashboard|immich|seerr|ollama|prowlarr|radarr|sonarr|traefik|vaultwarden|podman-.+).service"
-          "--collector.systemd.unit-exclude=^podman-prune\\.service$"
-        ];
+      };
+      smartctl = {
+        enable = true;
+        listenAddress = "127.0.0.1";
       };
     };
     alertmanager = {
       enable = true;
       port = 9093;
       openFirewall = false;
+      environmentFile = config.age.secrets.prometheus.path;
+      listenAddress = "127.0.0.1";
       configuration = {
         route = {
           receiver = "erebot";
@@ -91,7 +93,7 @@
         receivers = [{
           name = "${config.services.prometheus.alertmanager.configuration.route.receiver}";
           webhook_configs = [{
-            url = "http://127.0.0.1:${toString config.services.matrix-alertmanager.port}/alerts?secret=tDxIDjIVHSy45QAyu0VzJLFqrc3sW5ZG";
+            url = "http://127.0.0.1:${toString config.services.matrix-alertmanager.port}/alerts?secret=$MATRIX_ALERT_WEBHOOK_SECRET";
             send_resolved = true;
           }];
         }];
@@ -101,13 +103,19 @@
   services.matrix-alertmanager = {
     enable = true;
     port = 3004;
-    homeserverUrl = "https://matrix.${vars.traefik.domain}";
+    homeserverUrl = "http://127.0.0.1:${toString vars.matrix.port}";
     matrixUser = "@${config.services.prometheus.alertmanager.configuration.route.receiver}:matrix.${vars.traefik.domain}";
+    mention = false;
     tokenFile = config.age.secrets.erebot.path;
     secretFile = config.age.secrets.matrix-alertmanager-webhook.path;
     matrixRooms = [{
       receivers = [ "${config.services.prometheus.alertmanager.configuration.route.receiver}" ];
-      roomId = "!FVqWRrn1hvNO8Ykzs3xEdSP00B3mokJ7Ad38LkqNL0Y:matrix.${vars.traefik.domain}";
+      roomId = "!C-EIAS89vRQV7k6yUk34TTqXDro5S3Xwx_sJidUW3Lk";
     }];
+  };
+  systemd.services.matrix-alertmanager = {
+    environment = {
+      ALERT_LINKS = "Alerts:{annotations.matrixNoLink}";
+    };
   };
 }
