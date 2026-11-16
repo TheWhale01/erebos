@@ -28,5 +28,6 @@
     ./slskd.nix
     ./aurral.nix
     ./hermes.nix
+    ./sunshine.nix
   ];
 }

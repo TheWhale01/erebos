@@ -62,6 +62,7 @@
           "\${authentik_provider_proxy.enableactual_provider.id}"
           "\${authentik_provider_proxy.slskd_provider.id}"
           "\${authentik_provider_proxy.lidarr_provider.id}"
+          "\${authentik_provider_proxy.sunshine_provider.id}"
         ];
       };
       ldap_outpost = {
