@@ -20,6 +20,7 @@
     ./matrix
     ./n8n.nix
     ./hermes.nix
+    ./sunshine.nix
     ./fail2ban.nix
     ./smartd.nix
     ./grafana.nix
