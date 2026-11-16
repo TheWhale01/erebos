@@ -27,6 +27,22 @@
       tls = true;
       service = "sunshine";
       entrypoints = "websecure";
+      middlewares = [ "sunshine-auth" ];
+      priority = 10;
+    };
+    routers.sunshine-auth = {
+      rule = "Host(`sunshine.${vars.traefik.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)";
+      tls = true;
+      service = "authentik-proxy";
+      entrypoints = "websecure";
+      priority = 15;
+    };
+    middlewares.sunshine-auth = {
+      forwardAuth = {
+        address = "http://127.0.0.1:${toString vars.authentik.proxy.port}/outpost.goauthentik.io/auth/traefik";
+        trustForwardHeader = true;
+        authResponseHeaders = [ "X-authentik-username" "X-authentik-groups" "X-authentik-entitlements" "X-authentik-email" "X-authentik-name" "X-authentik-uid" "X-authentik-jwt" "X-authentik-meta-jwks" "X-authentik-meta-outpost" "X-authentik-meta-provider" "X-authentik-meta-app" "X-authentik-meta-version" "Authorization" ];
+      };
     };
   };
 }
