@@ -22,3 +22,7 @@
 - Never reuse old branches — they get deleted when a PR is merged or closed.
 - The repository must always be synced with the default branch before any modifications.
 - When pushing the first commit on a branch, also create the corresponding pull request.
+
+## PR creation rules
+
+- When creating a pull request, set it as **draft** and assign **@TheWhale01** as reviewer.
